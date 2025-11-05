@@ -1,17 +1,26 @@
-import { useState } from "react"
+import { useState } from "react";
 
 export const useForm = (initialValue) => {
-    const [values, setValues] = useState(initialValue)
-    const {email, password} = values;
+  const [formState, setState] = useState(initialValue);
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setState({
+      ...formState,
+      [name]: value,
+    });
+  };
+  const handleSubmit = (event, onLogin) => {
+    event.preventDefault();
+   onLogin(formState.username)
+  };
+  const handleReset = () => {
+    setState(initialValue);
+  };
 
-    const handleChange = () => {
-
-    }
-    const handleReset = ()=>{
-    }
-  return{
-    values,
+  return {
+    formState,
     handleChange,
-    handleReset
-  }
-}
+    handleSubmit,
+    handleReset,
+  };
+};
